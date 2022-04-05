@@ -13,7 +13,10 @@ nav ul li{
     padding: 10px;
     list-style: none;
     font-size: 25px;
-    color: white;
+    color: #0b2341;
+}
+nav ul li:hover{
+    color: #ed502e;
 }
 nav{
     float: right;
@@ -81,7 +84,7 @@ button {
     margin: 0;
     width: 3rem;
     height: 3rem;
-    background: #388e3c;
+    background: #ed502e;
     border-radius: 1.625rem;
    }
    
