@@ -29,6 +29,9 @@ app.get('/',(req,res)=>{
 app.get('/login',(req,res)=>{
     res.render('login',{title:'login'});
 })
+app.get('/dashboard',(req,res)=>{
+    res.render('dashboard');
+})
 
 
 // APIs POST
@@ -37,16 +40,19 @@ app.get('/login',(req,res)=>{
 app.post('/register',async(req,res)=>{
 const{email,password}=req.body;
 // Hashing the password
-const hashedPwd=await bcrypt.hash(password,12)
+console.log(req.body);
 const admin =Admin.findOne({email});
+console.log(admin.email);
 if(admin){
     console.log('user existss');
 }
+const hashedPwd=await bcrypt.hash(password,12)
 const adminObj=new Admin({
     email,
     password:hashedPwd
 })
 await adminObj.save();
+res.redirect('/login');
 });
 
 // POST LOGIN
@@ -61,6 +67,6 @@ const isMatch=bcrypt.compare(password,admin.password);
 if(!isMatch){
     return res.redirect('/login');
 }
-res.redirect('dashboard');
+res.redirect('/dashboard');
 });
 
