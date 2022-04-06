@@ -5,6 +5,7 @@ const MongodbSession = require("connect-mongodb-session")(session);
 const path = require("path");
 const bcrypt = require("bcryptjs");
 const Admin = require("./models/admin");
+const User=require('./models/user');
 require("dotenv").config();
 
 const app = express();
@@ -58,7 +59,10 @@ app.get("/login", (req, res) => {
   res.render("login", { title: "login" });
 });
 app.get("/dashboard", isAuth, (req, res) => {
-  res.render("dashboard", { title: "Dashboard" });
+    User.find({},(err,user)=>{
+        res.render("dashboard", { title: "Dashboard",userData:user });
+    });
+  
 });
 
 // APIs POST
@@ -66,20 +70,34 @@ app.get("/dashboard", isAuth, (req, res) => {
 // POST REGISTER
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
-  // Hashing the password
-  console.log(req.body);
+  
+//   console.log(req.body);
   const admin = Admin.findOne({ email });
   console.log(admin.email);
   if (admin) {
     console.log("user existss");
   }
+  // Hashing the password
   const hashedPwd = await bcrypt.hash(password, 12);
   const adminObj = new Admin({
     email,
     password: hashedPwd,
   });
   await adminObj.save();
-  res.redirect("/login");
+});
+
+app.post('/register/user',async(req,res)=>{
+    const{firstname,lastname,phone,programOfChoice,status,paymentMade}=req.body;
+    console.log(req.body)
+    const userObj= new User({
+        firstname,
+        lastname,
+        phone,
+        programOfChoice,
+        status,
+        paymentMade
+    });
+await userObj.save()
 });
 
 // POST LOGIN
