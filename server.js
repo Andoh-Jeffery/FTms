@@ -60,7 +60,7 @@ app.get("/login", (req, res) => {
 });
 app.get("/dashboard", isAuth, (req, res) => {
     User.find({},(err,user)=>{
-        res.render("dashboard", { title: "Dashboard",userData:user });
+        res.render("dashboard", { title: "Dashboard",userData:user,payment:user.paymentMade});
     });
   
 });
