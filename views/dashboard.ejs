@@ -51,7 +51,7 @@
         <div class="w3-container w3-teasl" style="background-color: #ed502e;color: #fff;">
             <h1>
                 FasTeck <%= title %>
-                    Total=
+                    Total=<%=payment%>
                     <span class="btn-logout">log out</span>
             </h1>
 
@@ -68,7 +68,7 @@
                         <th>payment Made</th>
                     </tr>
                     <tr>
-                        <td>Andoh Jeffery</td>
+                        <td><%= user.firstname +" " +user.lastname%></td>
                         <td><%= user.phone %></td>
                         <td><%= user.programOfChoice%></td>
                         <td><%=user.status%></td>
