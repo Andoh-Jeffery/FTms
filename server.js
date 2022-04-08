@@ -58,11 +58,21 @@ app.get("/", (req, res) => {
 app.get("/login", (req, res) => {
   res.render("login", { title: "login" });
 });
+
+
 app.get("/dashboard", isAuth, (req, res) => {
     User.find({},(err,user)=>{
-        res.render("dashboard", { title: "Dashboard",userData:user,payment:user.paymentMade});
+       let sumOfPayment=User.aggregate([{$sum:user.paymentMade}]);
+
+      console.log(User.findOne(paymentMade));
+        res.render("dashboard", { title: "Dashboard",userData:user,payment:sumOfPayment});
     });
   
+});
+// GET LOGOUT
+app.get('/logout',(req,res)=>{
+  req.session.destroy();
+  res.redirect('login');
 });
 
 // APIs POST
@@ -88,7 +98,6 @@ app.post("/register", async (req, res) => {
 
 app.post('/register/user',async(req,res)=>{
     const{firstname,lastname,phone,programOfChoice,status,paymentMade}=req.body;
-    console.log(req.body)
     const userObj= new User({
         firstname,
         lastname,
@@ -115,3 +124,5 @@ app.post("/login", async (req, res) => {
   req.session.isAuth = true;
   res.redirect("/dashboard");
 });
+
+

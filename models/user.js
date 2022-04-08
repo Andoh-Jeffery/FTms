@@ -23,7 +23,7 @@ const userSchema=new schema({
         required:true
     },
     paymentMade:{
-        type:String,
+        type:Number,
         default:''
     }
 
