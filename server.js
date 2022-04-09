@@ -62,10 +62,8 @@ app.get("/login", (req, res) => {
 
 app.get("/dashboard", isAuth, (req, res) => {
     User.find({},(err,user)=>{
-       let sumOfPayment=User.aggregate([{$sum:user.paymentMade}]);
-
-      console.log(User.findOne(paymentMade));
-        res.render("dashboard", { title: "Dashboard",userData:user,payment:sumOfPayment});
+      //  let sumOfPayment=user.aggregate([{$group:{_id:"$programOfChoice",sum:{$sum:'$paymentMade'}}}]);
+        res.render("dashboard", { title: "Dashboard",userData:user});
     });
   
 });
@@ -75,6 +73,9 @@ app.get('/logout',(req,res)=>{
   res.redirect('login');
 });
 
+app.get('/update',(req,res)=>{
+  res.send('Update page under construction..')
+});
 // APIs POST
 
 // POST REGISTER
@@ -124,5 +125,22 @@ app.post("/login", async (req, res) => {
   req.session.isAuth = true;
   res.redirect("/dashboard");
 });
+
+// PUT
+app.put('/update',(req,res)=>{
+  if(!req.body){
+    return res.send({message:'NO body to update'});
+}
+const id=req.params.id;
+User.findByIdAndUpdate(id,req.body,{useFindAndModify:false})
+.then(data=>{
+    if(!data){
+        res.send({Error:"No Data"})
+    }else{
+        res.send(data);
+    }
+}).catch(err=>{res.status(500).send({message:"could not update user"})});
+
+})
 
 
