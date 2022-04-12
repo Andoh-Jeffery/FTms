@@ -55,6 +55,7 @@ mongoose
 app.get("/", (req, res) => {
   res.render("index", { title: "Hompage" });
 });
+
 app.get("/login", (req, res) => {
   res.render("login", { title: "login" });
 });
@@ -62,7 +63,7 @@ app.get("/login", (req, res) => {
 
 app.get("/dashboard", isAuth, (req, res) => {
     User.find({},(err,user)=>{
-      //  let sumOfPayment=user.aggregate([{$group:{_id:"$programOfChoice",sum:{$sum:'$paymentMade'}}}]);
+      //  let sumOfPayment=User.aggregate([{$group:{_id:"$programOfChoice",sum:{$sum:'$paymentMade'}}}]);
         res.render("dashboard", { title: "Dashboard",userData:user});
     });
   
@@ -74,7 +75,13 @@ app.get('/logout',(req,res)=>{
 });
 
 app.get('/update',(req,res)=>{
-  res.send('Update page under construction..')
+ User.find({},(err,doc)=>{
+   if(err){console.log(err)}
+   else{
+    //  res.send(`update page containing ${doc}`);
+    res.render('update')
+   }
+ }) 
 });
 // APIs POST
 
@@ -127,7 +134,7 @@ app.post("/login", async (req, res) => {
 });
 
 // PUT
-app.put('/update',(req,res)=>{
+app.put('/update:id',(req,res)=>{
   if(!req.body){
     return res.send({message:'NO body to update'});
 }

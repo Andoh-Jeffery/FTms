@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="dashboard.css">
     <title>
@@ -52,17 +53,18 @@
         <div class="w3-container w3-teasl" style="background-color: #ed502e;color: #fff;">
             <h1>
                 FasTeck <%= title %>
+             
                    <a href="/logout"> <span class="btn-logout">log out</span></a>
             </h1>
 
         </div>
         <div class="w3-container">
            
-            <div class="content">
+            <div class="content table-responsive">
         
         <h3 style="margin-left: 35%;" class="title">Members</h3>
 
-                <table>
+                <table class="table table-hover">
                     <tr>
                         <th>Username</th>
                         <th>Phone Number</th>
@@ -88,9 +90,9 @@
             
         </div>
     </div>
-    <div class="expenses content" style="margin-left:23%">
+    <div class="expenses content w3-container " style="margin-left:20%;">
         <h3 class="title " style="margin-left:48%">Expenses</h3>
-        <table>
+        <table class="table table-hover">
             <tr>
                 <th>title</th>
                 <th>description</th>
