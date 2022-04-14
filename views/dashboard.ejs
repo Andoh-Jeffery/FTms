@@ -79,6 +79,7 @@
                         <th>Action</th>
                     </tr>
                     <% userData.forEach(user=>{%>
+                        
                     <tr>
                         <td><%= user.firstname +" " +user.lastname%></td>
                         <td><%= user.phone %></td>
@@ -86,7 +87,7 @@
                         <td><%=user.status%></td>
                         <td><%=user.paymentMade%></td>
                         <td>
-                            <a class="icons" href="/update"><i class="fas fa-pencil-alt"></i></a>
+                            <a class="icons" href="/update?id=<%= user._id%>"><i class="fas fa-pencil-alt"></i></a>
                         </td>
                     </tr>
                     <%})%>

@@ -75,14 +75,13 @@ app.get('/logout',(req,res)=>{
 });
 
 app.get('/update',(req,res)=>{
- User.find({},(err,doc)=>{
-   if(err){console.log(err)}
-   else{
-    //  res.send(`update page containing ${doc}`);
-    res.render('update')
-   }
- }) 
-});
+  const id=req.query.id;
+  console.log(id);
+    User.findById({_id:id},(err,user)=>{
+      res.render('update',{title:"Update",userData:user})
+    })
+    
+ }) ;
 // APIs POST
 
 // POST REGISTER
@@ -135,10 +134,11 @@ app.post("/login", async (req, res) => {
 
 // PUT
 app.put('/update:id',(req,res)=>{
+
   if(!req.body){
     return res.send({message:'NO body to update'});
 }
-const id=req.params.id;
+const id=req.query.id;
 User.findByIdAndUpdate(id,req.body,{useFindAndModify:false})
 .then(data=>{
     if(!data){
