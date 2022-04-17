@@ -57,6 +57,7 @@ mongoose
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Hompage" });
+  res.send("working...");
 });
 
 app.get("/login", (req, res) => {
@@ -72,7 +73,6 @@ app.get("/dashboard", isAuth, (req, res) => {
 // GET LOGOUT
 app.get("/logout", (req, res) => {
   req.session.destroy();
-  res.redirect("login");
 });
 
 app.get("/update", isAuth, (req, res) => {
@@ -145,20 +145,16 @@ app.post("/login", async (req, res) => {
 });
 
 // PUT
-app.put("/update:id", (req, res) => {
-  if (!req.body) {
-    return res.send({ message: "NO body to update" });
-  }
-  const id = req.query.id;
-  User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
-    .then((data) => {
-      if (!data) {
-        res.send({ Error: "No Data" });
-      } else {
-        res.send(data);
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({ message: "could not update user" });
-    });
+app.put("/update", async (req, res) => {
+  const { firstname, lastname, phone, programOfChoice, status, paymentMade } =
+    req.body;
+  const userObj = new User({
+    firstname,
+    lastname,
+    phone,
+    programOfChoice,
+    status,
+    paymentMade,
+  });
+  console.log(req.body);
 });
