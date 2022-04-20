@@ -133,8 +133,8 @@ app.post("/login", async (req, res) => {
 });
 
 // PUT
-app.put('/update:id',(req,res)=>{
-
+app.put('/update',(req,res)=>{
+console.log(req.body);
   if(!req.body){
     return res.send({message:'NO body to update'});
 }
