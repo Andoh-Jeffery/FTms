@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css"
-        integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/update.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css"
+      integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/update.css" />
     <title><%= title%></title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="row">
+<<<<<<< HEAD
         <div class="col-3"></div>
         <div class="col-6">
 
@@ -63,9 +67,97 @@
 
         </div>
         <div class="col-3"></div>
+=======
+      <div class="col-3"></div>
+      <div class="col-6">
+        
+        <form method="POST" action="/update/<%= userData._id %>?_method=put">
+          <h3>FasTeck Payment Update Page</h3>
+            <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">First name</label>
+              <input
+                type="text"
+                class="form-control"
+                value="<%=userData.firstname%>"
+                name="firsname"
+              />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Last name</label>
+              <input
+                type="text"
+                class="form-control"
+                value="<%=userData.lastname%>"
+                name="lastname"
+                />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputAddress">Phone</label>
+              <input
+                type="text"
+                class="form-control"
+                value="<%=userData.phone%>"
+                placeholder="Phone"
+                name="phone"
+              />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputAddress2">Program</label>
+              <input
+                type="text"
+                class="form-control"
+                value="<%=userData.programOfChoice%>"
+                placeholder="Program"
+                name="programOfChoice"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputCity">Status</label>
+              <input
+                type="text"
+                class="form-control"
+                name="status"
+                value="<%=userData.status%>"
+              />
+            </div>
+            <!-- <div class="form-group col-md-4">
+                <label for="inputState">State</label>
+                <select id="inputState" class="form-control">
+                  <option selected>Choose...</option>
+                  <option>...</option>
+                </select>
+              </div> -->
+            <div class="form-group col-md-2">
+              <label for="inputZip">Payment</label>
+              <input
+                type="text"
+                class="form-control"
+                name="paymentMade"
+                value="<%=userData.paymentMade%>"
+                id="inputZip"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <!-- <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                  Check me out
+                </label>
+              </div> -->
+          </div>
+          <a href="/update" class="btn btn-primary">Update</a>
+        </form>
+        
+      </div>
+      <div class="col-3"></div>
+>>>>>>> b5fa983c9e8aed6bbccddf497f86bca360b797ff
     </div>
-
-
-</body>
-
+  </body>
 </html>
