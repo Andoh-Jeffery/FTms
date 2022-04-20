@@ -8,6 +8,7 @@ const bcrypt = require("bcryptjs");
 const Admin = require("./models/admin");
 const User = require("./models/user");
 const Expense = require("./models/expense");
+const methodOverride=require('method-override')
 require("dotenv").config();
 
 const app = express();
@@ -22,6 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "./styles")));
 app.use(express.static(path.join(__dirname, "./images")));
 app.use(favicon(__dirname + "/favicon.ico"));
+// a new middleware from some random dude having the same problem as me
+app.use(methodOverride('_method'));
+
 app.use(
   session({
     secret: "the key for the secret",
@@ -66,10 +70,17 @@ app.get("/login", (req, res) => {
 
 app.get("/dashboard", isAuth, (req, res) => {
   User.find({}, (err, user) => {
-    //  let sumOfPayment=User.aggregate([{$group:{_id:"$programOfChoice",sum:{$sum:'$paymentMade'}}}]);
-    res.render("dashboard", { title: "Dashboard", userData: user });
+    res.render("dashboard", { title: "Dashboard", userData: user});
+    
   });
 });
+app.get("/expense",(req,res)=>{
+  Expense.find({},(err,data)=>{
+    if(err){
+      console.log(err.message)
+    }res.send({expenseData:data})});
+    
+})
 // GET LOGOUT
 app.get("/logout", (req, res) => {
   req.session.destroy();
@@ -127,6 +138,7 @@ app.post("/expenses_add", async (req, res) => {
     cost,
   });
   await expenseObj.save();
+  res.send("data saved");
 });
 // POST LOGIN
 app.post("/login", async (req, res) => {
@@ -146,8 +158,9 @@ app.post("/login", async (req, res) => {
 
 // PUT
 app.put("/update", async (req, res) => {
+  // const id=req.params.id;
   const { firstname, lastname, phone, programOfChoice, status, paymentMade } =
-    req.body;
+  req.body;
   const userObj = new User({
     firstname,
     lastname,
@@ -156,5 +169,7 @@ app.put("/update", async (req, res) => {
     status,
     paymentMade,
   });
-  console.log(req.body);
+  // console.log(req.body);
+  // await User.findByIdAndUpdate({_id:id})
+ res.json(req.body);
 });

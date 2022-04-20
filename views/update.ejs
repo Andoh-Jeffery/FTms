@@ -18,16 +18,17 @@
     <div class="row">
       <div class="col-3"></div>
       <div class="col-6">
-        <form method="POST">
+        
+        <form method="POST" action="/update/<%= userData._id %>?_method=put">
           <h3>FasTeck Payment Update Page</h3>
-          <div class="form-row">
+            <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputEmail4">First name</label>
               <input
                 type="text"
                 class="form-control"
                 value="<%=userData.firstname%>"
-                placeholder="first name"
+                name="firsname"
               />
             </div>
             <div class="form-group col-md-6">
@@ -36,8 +37,8 @@
                 type="text"
                 class="form-control"
                 value="<%=userData.lastname%>"
-                placeholder="last name"
-              />
+                name="lastname"
+                />
             </div>
           </div>
           <div class="form-row">
@@ -48,6 +49,7 @@
                 class="form-control"
                 value="<%=userData.phone%>"
                 placeholder="Phone"
+                name="phone"
               />
             </div>
             <div class="form-group col-md-6">
@@ -57,6 +59,7 @@
                 class="form-control"
                 value="<%=userData.programOfChoice%>"
                 placeholder="Program"
+                name="programOfChoice"
               />
             </div>
           </div>
@@ -67,6 +70,7 @@
               <input
                 type="text"
                 class="form-control"
+                name="status"
                 value="<%=userData.status%>"
               />
             </div>
@@ -82,6 +86,7 @@
               <input
                 type="text"
                 class="form-control"
+                name="paymentMade"
                 value="<%=userData.paymentMade%>"
                 id="inputZip"
               />
@@ -97,6 +102,7 @@
           </div>
           <a href="/update" class="btn btn-primary">Update</a>
         </form>
+        
       </div>
       <div class="col-3"></div>
     </div>
