@@ -19,6 +19,7 @@ const store = new MongodbSession({
 });
 // middlewares
 app.set("view engine", "ejs");
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "./styles")));
 app.use(express.static(path.join(__dirname, "./images")));
@@ -84,6 +85,7 @@ app.get("/expense",(req,res)=>{
 // GET LOGOUT
 app.get("/logout", (req, res) => {
   req.session.destroy();
+  res.redirect('/login');
 });
 
 app.get("/update", isAuth, (req, res) => {
@@ -157,28 +159,8 @@ app.post("/login", async (req, res) => {
 });
 
 // PUT
-<<<<<<< HEAD
-app.put('/update',(req,res)=>{
-console.log(req.body);
-  if(!req.body){
-    return res.send({message:'NO body to update'});
-}
-const id=req.query.id;
-User.findByIdAndUpdate(id,req.body,{useFindAndModify:false})
-.then(data=>{
-    if(!data){
-        res.send({Error:"No Data"})
-    }else{
-        res.send(data);
-    }
-}).catch(err=>{res.status(500).send({message:"could not update user"})});
-
-})
-
-
-=======
-app.put("/update", async (req, res) => {
-  // const id=req.params.id;
+app.put("/update/:id", async (req, res) => {
+ 
   const { firstname, lastname, phone, programOfChoice, status, paymentMade } =
   req.body;
   const userObj = new User({
@@ -187,10 +169,26 @@ app.put("/update", async (req, res) => {
     phone,
     programOfChoice,
     status,
-    paymentMade,
+    paymentMade
   });
-  // console.log(req.body);
-  // await User.findByIdAndUpdate({_id:id})
- res.json(req.body);
+let id=req.params.id;
+if(!req.body){
+  res.status(400).send('No request Body')
+}
+User.findByIdAndUpdate({_id:id},req.body,{useFindAndModify:false}).then(data=>{
+  if(!data){
+    res.send("No data")
+  }
+  // userObj.save().then(err=>{
+  //   if(err){
+  //     console.log(err.message);
+  //   }
+  //   res.redirect('/dashboard');
+  // })
+  userObj.save();
+  res.redirect('/dashboard');
+  
+  // res.send(data);
+}).catch(err=>res.status(500).send({message:`could not update user with id ${id}`}));
+
 });
->>>>>>> b5fa983c9e8aed6bbccddf497f86bca360b797ff

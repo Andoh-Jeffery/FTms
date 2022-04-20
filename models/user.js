@@ -4,23 +4,23 @@ const schema=mongoose.Schema;
 const userSchema=new schema({
     firstname:{
         type:String,
-        required:true
+        // required:true
     },
     lastname:{
         type:String,
-        required:true
+        // required:true
     },
     phone:{
         type:String,
-        required:true
+        // required:true
     },
     programOfChoice:{
         type:String,
-        required:true
+        // required:true
     },
     status:{
         type:String,
-        required:true
+        // required:true
     },
     paymentMade:{
         type:Number,
