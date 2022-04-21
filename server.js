@@ -8,7 +8,8 @@ const bcrypt = require("bcryptjs");
 const Admin = require("./models/admin");
 const User = require("./models/user");
 const Expense = require("./models/expense");
-const methodOverride=require('method-override')
+const methodOverride=require('method-override');
+const { getHeapCodeStatistics } = require("v8");
 require("dotenv").config();
 
 const app = express();
@@ -56,13 +57,12 @@ mongoose
       console.log(`server is running on port: ${process.env.PORT}`)
     );
   })
-  .catch((err) => console.log(err));
+  .catch((err) => console.log(err.message));
 
 // APIs
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Hompage" });
-  res.send("working...");
 });
 
 app.get("/login", (req, res) => {
@@ -75,7 +75,8 @@ app.get("/dashboard", isAuth, (req, res) => {
     
   });
 });
-app.get("/expense",(req,res)=>{
+
+app.get("/expenses",(req,res)=>{
   Expense.find({},(err,data)=>{
     if(err){
       console.log(err.message)
@@ -132,7 +133,7 @@ app.post("/register/user", async (req, res) => {
 
 // POST expenses
 
-app.post("/expenses_add", async (req, res) => {
+app.post("/expenses", async (req, res) => {
   const { title, description, cost } = req.body;
   const expenseObj = new Expense({
     title,
@@ -140,7 +141,8 @@ app.post("/expenses_add", async (req, res) => {
     cost,
   });
   await expenseObj.save();
-  res.send("data saved");
+  
+  res.send("data saved" + req.body);
 });
 // POST LOGIN
 app.post("/login", async (req, res) => {
@@ -159,8 +161,7 @@ app.post("/login", async (req, res) => {
 });
 
 // PUT
-app.put("/update/:id", async (req, res) => {
- 
+app.put("/update/:id", async (req, res) => { 
   const { firstname, lastname, phone, programOfChoice, status, paymentMade } =
   req.body;
   const userObj = new User({
@@ -185,7 +186,7 @@ User.findByIdAndUpdate({_id:id},req.body,{useFindAndModify:false}).then(data=>{
   //   }
   //   res.redirect('/dashboard');
   // })
-  userObj.save();
+  data.save();
   res.redirect('/dashboard');
   
   // res.send(data);

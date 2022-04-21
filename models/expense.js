@@ -13,5 +13,5 @@ const expenseSchema=new schema({
         type:Number,
         require:true
     }
-})
+});
 module.exports=mongoose.model("Expense",expenseSchema);
