@@ -9,7 +9,7 @@ const Admin = require("./models/admin");
 const User = require("./models/user");
 const Expense = require("./models/expense");
 const methodOverride=require('method-override');
-const { getHeapCodeStatistics } = require("v8");
+// const { getHeapCodeStatistics } = require("v8");
 require("dotenv").config();
 
 const app = express();
@@ -71,8 +71,11 @@ app.get("/login", (req, res) => {
 
 app.get("/dashboard", isAuth, (req, res) => {
   User.find({}, (err, user) => {
-    res.render("dashboard", { title: "Dashboard", userData: user});
-    
+    Expense.find({},(err,data)=>{
+
+      res.render("dashboard", { title: "Dashboard", userData: user,expenseData:data});
+    });
+    // console.log(exp);
   });
 });
 
@@ -81,7 +84,6 @@ app.get("/expenses",(req,res)=>{
     if(err){
       console.log(err.message)
     }res.send({expenseData:data})});
-    
 })
 // GET LOGOUT
 app.get("/logout", (req, res) => {
