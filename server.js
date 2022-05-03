@@ -71,15 +71,27 @@ app.get("/login", (req, res) => {
 
 app.get("/dashboard", isAuth, (req, res) => {
   User.find({}, (err, user) => {
+    let initValue = 0;
+    // let totalAmount = 0;
+    let totalAmount = user.reduce((p, c )=>{
+      return p + (c.paymentMade ? c.paymentMade : 0);
+    } , initValue );
     Expense.find({},(err,data)=>{
-
-      res.render("dashboard", { title: "Dashboard", userData: user,expenseData:data});
+      let totalExpenses=0;
+        data.forEach(u => {
+          
+          // console.log(u.cost ? u.cost : 0);
+          const a = u.cost ? u.cost : 0;
+          totalExpenses += a;
+        })
+        let total=totalAmount-totalExpenses;
+      res.render("dashboard", { title: "Dashboard", userData: user,expenseData:data, totalAmount: totalAmount,totalExpenses:totalExpenses,total:total});
     });
     // console.log(exp);
   });
 });
 
-app.get("/expenses",(req,res)=>{
+app.get("/expenses",isAuth,(req,res)=>{
   Expense.find({},(err,data)=>{
     if(err){
       console.log(err.message)
@@ -131,6 +143,8 @@ app.post("/register/user", async (req, res) => {
     paymentMade,
   });
   await userObj.save();
+  res.send("Data saved...")
+  res.end();
 });
 
 // POST expenses
@@ -188,7 +202,7 @@ User.findByIdAndUpdate({_id:id},req.body,{useFindAndModify:false}).then(data=>{
   //   }
   //   res.redirect('/dashboard');
   // })
-  data.save();
+  // data.save();
   res.redirect('/dashboard');
   
   // res.send(data);

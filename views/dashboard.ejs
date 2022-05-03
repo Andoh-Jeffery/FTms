@@ -59,14 +59,19 @@
   <div style="margin-left: 20%">
     <div class="w3-container w3-teasl" style="background-color: #ed502e; color: #fff;position:-webkit-sticky;">
       <h1>
-        FasTeck <%= title %>
-
+        FasTeck <%= title %> <span>Total: <%=total %> </span>
+         <!-- <span>Total= <%userData.forEach(user=>{%>
+          <%var totalAmount=user.paymentMade;%>
+          
+         <%=totalAmount %> 
+        <%})%></span> -->
+        
         <a href="/logout"> <span class="btn-logout">log out</span></a>
       </h1>
     </div>
     <div class="w3-container">
       <div class="content table-responsive">
-        <h3 style="margin-left: 35%" class="title">Members</h3>
+        <h3 style="margin-left: 35%" class="title">Members <span>Total: <%=totalAmount %></span></h3>
 
         <table class="table table-hover">
           <tr>
@@ -95,7 +100,7 @@
     </div>
   </div>
   <div class="expenses content w3-container" style="margin-left: 20%">
-    <h3 class="title" style="margin-left: 48%">Expenses</h3>
+    <h3 class="title" style="margin-left: 48%">Expenses <span>Total: <%=totalExpenses %></span></h3>
     
     <table class="table table-hover">
       <tr>
