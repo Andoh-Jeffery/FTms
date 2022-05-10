@@ -35,20 +35,7 @@
           <ul class="nested">
             <li>Members</li>
             <li>Expenses</li>
-            <!-- <li><span class="caret">Tea</span>
-                  <ul class="nested">
-                    <li>Black Tea</li>
-                    <li>White Tea</li>
-                    <li><span class="caret">Green Tea</span>
-                      <ul class="nested">
-                        <li>Sencha</li>
-                        <li>Gyokuro</li>
-                        <li>Matcha</li>
-                        <li>Pi Lo Chun</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li> -->
+
           </ul>
         </li>
       </ul>
@@ -58,14 +45,11 @@
   <!-- Page Content -->
   <div style="margin-left: 20%">
     <div class="w3-container w3-teasl" style="background-color: #ed502e; color: #fff;position:-webkit-sticky;">
+      <% if(role==="admin"){%>
+
       <h1>
         FasTeck <%= title %> <span>Total: <%=total %> </span>
-         <!-- <span>Total= <%userData.forEach(user=>{%>
-          <%var totalAmount=user.paymentMade;%>
-          
-         <%=totalAmount %> 
-        <%})%></span> -->
-        
+
         <a href="/logout"> <span class="btn-logout">log out</span></a>
       </h1>
     </div>
@@ -101,7 +85,7 @@
   </div>
   <div class="expenses content w3-container" style="margin-left: 20%">
     <h3 class="title" style="margin-left: 48%">Expenses <span>Total: <%=totalExpenses %></span></h3>
-    
+
     <table class="table table-hover">
       <tr>
         <th>title</th>
@@ -117,6 +101,45 @@
       <%})%>
     </table>
   </div>
+  <%}
+    else {%>
+    <div class="w3-container w3-teasl" style="background-color: #ed502e; color: #fff;position:-webkit-sticky;">
+      <h1>
+        FasTeck <%= title %>
+
+        <a href="/logout"> <span class="btn-logout">log out</span></a>
+      </h1>
+    </div>
+    <div class="w3-container">
+      <div class="content table-responsive">
+
+
+        <table class="table table-hover">
+          <tr>
+            <th>Username</th>
+            <th>Phone Number</th>
+            <th>Program</th>
+            <th>status</th>
+            <th>payment Made <span>&#8373;</span></th>
+            <th>Action</th>
+          </tr>
+          <% userData.forEach(user=>{%>
+
+          <tr>
+            <td><%= user.firstname +" " +user.lastname%></td>
+            <td><%= user.phone %></td>
+            <td><%= user.programOfChoice%></td>
+            <td><%=user.status%></td>
+            <td><span>&#8373;</span><%=user.paymentMade%></td>
+            <td>
+              <a class="icons" href="/update?id=<%= user._id%>"><i class="fas fa-pencil-alt"></i></a>
+            </td>
+          </tr>
+          <%})%>
+        </table>
+      </div>
+    </div>
+  <%}%>
   <script>
     var toggler = document.getElementsByClassName("caret");
     var i;
