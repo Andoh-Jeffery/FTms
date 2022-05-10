@@ -38,46 +38,18 @@ app.use(
 );
 
 const isAuth = (req, res, next) => {
-  // if (req.session.isAuth) {
-  //   next();
-  if (req.session.isAuth&&req.session.isAuthorize==="admin") {
-    User.find({}, (err, user) => {
-        let initValue = 0;
-        // let totalAmount = 0;
-        let totalAmount = user.reduce((p, c) => {
-          return p + (c.paymentMade ? c.paymentMade : 0);
-        }, initValue);
-        Expense.find({}, (err, data) => {
-          let totalExpenses = 0;
-          data.forEach(u => {
-    
-            // console.log(u.cost ? u.cost : 0);
-            const a = u.cost ? u.cost : 0;
-            totalExpenses += a;
-          })
-          let total = totalAmount - totalExpenses;
-          console.log(req.body.role);
-          res.render("dashboard", { title: "Dashboard", userData: user, expenseData: data, totalAmount: totalAmount, totalExpenses: totalExpenses, total: total });
-        });
-       
-      });
-  }
-  else if(req.session.isAuth&&req.session.isAuthorize==="web"){
-    res.send(`${req.session.isAuthorize} is logged in`);
-   
-  } 
-  else {
-    res.redirect("/login");
-  }
+  if (req.session.isAuth) {
+    next();
+  }else{res.render('login')}
 };
-// const isAuthorize=(res,req,next)=>{
-//   if(isAuth&&req.session.isAuthorize==="admin"){
-//     next()
-//   }
-//   else if(isAuth&&req.session.isAuthorize==="web"){
-//     res.send('Kanta is logged in');
-//   }else{res.status(404).send("you are not authorized...")}
-// }
+const isAuthorize=(res,req,next)=>{
+  if(isAuth&&req.session.isAuthorize==="admin"){
+    next()
+  }
+  else if(isAuth&&req.session.isAuthorize==="web"){
+    res.send('Kanta is logged in');
+  }else{res.status(404).send("you are not authorized...")}
+}
 
 // mongo connection
 mongoose
@@ -100,30 +72,51 @@ app.get("/", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  res.render("login", { title: "login" });
+  res.render("login", { title: "login"});
 });
 
-app.get("/dashboard", isAuth,(req, res) => {
-  // User.find({}, (err, user) => {
-  //   let initValue = 0;
-  //   // let totalAmount = 0;
-  //   let totalAmount = user.reduce((p, c) => {
-  //     return p + (c.paymentMade ? c.paymentMade : 0);
-  //   }, initValue);
-  //   Expense.find({}, (err, data) => {
-  //     let totalExpenses = 0;
-  //     data.forEach(u => {
+app.get("/dashboard", isAuth, (req, res) => {
+  if(req.session.isAuthorize==="admin"){
 
-  //       // console.log(u.cost ? u.cost : 0);
-  //       const a = u.cost ? u.cost : 0;
-  //       totalExpenses += a;
-  //     })
-  //     let total = totalAmount - totalExpenses;
-  //     console.log(req.body.role);
-  //   });
-  //   // console.log(exp);
-  // });
-      // res.render("dashboard", { title: "Dashboard", userData: user, expenseData: data, totalAmount: totalAmount, totalExpenses: totalExpenses, total: total });
+    User.find({}, (err, user) => {
+      let initValue = 0;
+      // let totalAmount = 0;
+      let totalAmount = user.reduce((p, c) => {
+        return p + (c.paymentMade ? c.paymentMade : 0);
+      }, initValue);
+      Expense.find({}, (err, data) => {
+        let totalExpenses = 0;
+        data.forEach(u => {
+  
+          // console.log(u.cost ? u.cost : 0);
+          const a = u.cost ? u.cost : 0;
+          totalExpenses += a;
+        })
+        let total = totalAmount - totalExpenses;
+        // console.log(req.body.role);
+        res.render("dashboard", { role:req.session.isAuthorize,title: "Dashboard", userData: user, expenseData: data, totalAmount: totalAmount, totalExpenses: totalExpenses, total: total });
+      });
+      // console.log(exp);
+    });
+
+    // res.send(`the ${req.session.isAuthorize} list will display here...`)
+  }
+  else if(req.session.isAuthorize==="web"){
+    User.find({programOfChoice:"Web Development"},(err,data)=>{
+      if(err){console.log(err.message)}
+      res.render('dashboard',{role:req.session.isAuthorize,userData:data,title:"Dashboard"})
+
+    })
+    // res.send(`the ${req.session.isAuthorize} list will display here...`)
+  }
+  else if(req.session.isAuthorize==="mobile"){
+    User.find({programOfChoice:"Mobile Development"},(err,data)=>{
+      if(err){console.log(err.message)}
+      res.render('dashboard',{role:req.session.isAuthorize,userData:data,title:"Dashboard"})
+
+    })
+    // res.send(`the ${req.session.isAuthorize} list will display here...`)
+  }
 });
 
 app.get("/expenses", isAuth, (req, res) => {
@@ -212,7 +205,7 @@ app.post("/login", async (req, res) => {
     return res.redirect("/login");
   }
   // console.log(req.body.role);
-  req.session.isAuthorize=admin.role;
+  req.session.isAuthorize = admin.role;
   req.session.isAuth = true;
   res.redirect("/dashboard");
 });
